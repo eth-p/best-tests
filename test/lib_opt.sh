@@ -1,3 +1,21 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# Helpers:
+# ----------------------------------------------------------------------------------------------------------------------
+assert_opt_name() {
+	assert [ "$OPT" = "$1" ]
+}
+
+assert_opt_value() {
+	assert [ "$OPT_VAL" = "$1" ]
+}
+
+assert_opt_valueless() {
+	assert [ -z "$OPT_VAL" ]
+}
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Tests:
+# ----------------------------------------------------------------------------------------------------------------------
 setup() {
 	set - --long-implicit implicit_value \
 	      --long-explicit=explicit_value \
@@ -12,19 +30,6 @@ setup() {
 	source "${LIB}/print.sh"
 	source "${LIB}/opt.sh"
 }
-
-assert_opt_name() {
-	assert [ "$OPT" = "$1" ]
-}
-
-assert_opt_value() {
-	assert [ "$OPT_VAL" = "$1" ]
-}
-
-assert_opt_valueless() {
-	assert [ -z "$OPT_VAL" ]
-}
-
 
 test:long() {
 	description "Parse long options."
