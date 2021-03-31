@@ -4,7 +4,6 @@ setup() {
 
 test:porcelain_list() {
 	description "Checks that --porcelain --list mode prints a parsable list of tests."
-
 	{
 		assert porcelain_parse_list
 		expect_equal "$P_TEST" "ptest_single:test:some_test"
@@ -16,9 +15,19 @@ test:porcelain_list() {
 	} < <(porcelain ptest_single --list)
 }
 
+test:porcelain_list_suites() {
+	description "Checks that --porcelain --list-suotes mode prints a parsable list of test suites."
+	{
+		assert porcelain_parse_list_suites
+		expect_equal "$P_TEST_SUITE" "ptest_single"
+		expect_equal "$P_TEST_SUITE_FILE" "$TEST_DIR/ptest_single.sh"
+		
+		assert porcelain_parse_list_suites_complete
+	} < <(porcelain ptest_single --list-suites)
+}
+
 test:porcelain_list_order() {
 	description "Checks that --porcelain --list mode prints tests in order of appearance."
-
 	{
 		assert porcelain_parse_list
 		expect_equal "$P_TEST" "ptest_order:test:0_test_first"
@@ -64,7 +73,6 @@ test:porcelain_order_async() {
 
 test:porcelain_results_info() {
 	description "Checks that --porcelain mode prints a parsable list of test results."
-	
 	{
 		assert porcelain_parse_result
 		expect_equal "$P_TEST" "ptest_single:some_test"

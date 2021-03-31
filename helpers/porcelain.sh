@@ -17,6 +17,55 @@ porcelain_mt() {
 	return $?
 }
 
+# Parses a porcelain entry for a `--list-suotes` output.
+#
+# Variables:
+#
+#   $P_TEST_SUITE       -- The test suite.
+#   $P_TEST_SUITE_FILE  -- The test suite file.
+porcelain_parse_list_suites() {
+	local command
+	local args
+
+	P_TEST_SUITE=''
+	P_TEST_SUITE_FILE=''
+
+	if [[ -n "$__PARSED_NEXT_TEST" ]]; then
+		P_TEST_SUITE="$__PARSED_NEXT_TEST"
+		__PARSED_NEXT_TEST=''
+	fi
+
+	while read -r command args; do
+		if [[ "$command" == "test_suite" ]]; then
+			if [[ -z "$P_TEST_SUITE" ]]; then
+				P_TEST_SUITE="$args"
+				continue
+			else
+				# Accidentally parsed the upcoming test.
+				# Save it for the next invocation.
+				__PARSED_NEXT_TEST="$args"
+				return 0
+			fi
+		fi
+
+		case "$command" in
+			"test_suite_file") assert [ -z "$P_TEST_SUITE_FILE" ] && P_TEST_SUITE_FILE="$args" ;;
+		esac
+	done
+
+	# If there's nothing left to read and a test hasn't been found, return 1 to signal the end.
+	[[ -n "$P_TEST_SUITE" ]] || return 1
+}
+
+# Calls `porcelain_parse_list_suites`, returning 1 if a test was successfully parsed.
+porcelain_parse_list_suites_complete() {
+	if porcelain_parse_list_suites "$@"; then
+		return 1
+	else
+		return 0
+	fi
+}
+
 # Parses a porcelain entry for a `--list` output.
 #
 # Variables:
