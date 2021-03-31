@@ -6,7 +6,7 @@ test:porcelain_list() {
 	description "Checks that --porcelain --list mode prints a parsable list of tests."
 	{
 		assert porcelain_parse_list
-		expect_equal "$P_TEST" "ptest_single:test:some_test"
+		expect_equal "$P_TEST" "ptest_single:some_test"
 		expect_equal "$P_TEST_NAME" "test:some_test"
 		expect_equal "$P_TEST_SUITE" "ptest_single"
 		expect_equal "$P_TEST_DESCRIPTION" "|DESCRIPTION HERE|"
@@ -30,13 +30,13 @@ test:porcelain_list_order() {
 	description "Checks that --porcelain --list mode prints tests in order of appearance."
 	{
 		assert porcelain_parse_list
-		expect_equal "$P_TEST" "ptest_order:test:0_test_first"
+		expect_equal "$P_TEST" "ptest_order:0_test_first"
 		expect_equal "$P_TEST_NAME" "test:0_test_first"
 		expect_equal "$P_TEST_SUITE" "ptest_order"
 		expect_equal "$P_TEST_DESCRIPTION" "Second"
 
 		assert porcelain_parse_list
-		expect_equal "$P_TEST" "ptest_order:test:1_test_second"
+		expect_equal "$P_TEST" "ptest_order:1_test_second"
 		expect_equal "$P_TEST_NAME" "test:1_test_second"
 		expect_equal "$P_TEST_SUITE" "ptest_order"
 		expect_equal "$P_TEST_DESCRIPTION" "First"

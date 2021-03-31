@@ -6,12 +6,24 @@
 # ----------------------------------------------------------------------------------------------------------------------
 
 # Executes a porcelain command.
+#
+# Arguments:
+#
+#     $1  [string] -- The test suite name.
+#     ... [string] -- Any other arguments to pass to BEST.
+#   
 porcelain() {
 	"$BEST_EXECUTABLE" -j0 --suite="$1"  --porcelain "${@:2}"
 	return $?
 }
 
 # Executes a multi-threaded porcelain command.
+#
+# Arguments:
+#
+#     $1  [string] -- The test suite name.
+#     ... [string] -- Any other arguments to pass to BEST.
+#   
 porcelain_mt() {
 	"$BEST_EXECUTABLE" -j8 --suite="$1" --porcelain "${@:2}"
 	return $?
@@ -21,8 +33,8 @@ porcelain_mt() {
 #
 # Variables:
 #
-#   $P_TEST_SUITE       -- The test suite.
-#   $P_TEST_SUITE_FILE  -- The test suite file.
+#     $P_TEST_SUITE       -- The test suite.
+#     $P_TEST_SUITE_FILE  -- The test suite file.
 porcelain_parse_list_suites() {
 	local command
 	local args
@@ -70,10 +82,10 @@ porcelain_parse_list_suites_complete() {
 #
 # Variables:
 #
-#   $P_TEST             -- The fully qualified test ID.
-#   $P_TEST_NAME        -- The test name.
-#   $P_TEST_SUITE       -- The test suite.
-#   $P_TEST_DESCRIPTION -- The test description.
+#     $P_TEST             -- The fully qualified test ID.
+#     $P_TEST_NAME        -- The test name.
+#     $P_TEST_SUITE       -- The test suite.
+#     $P_TEST_DESCRIPTION -- The test description.
 porcelain_parse_list() {
 	local command
 	local args
@@ -125,10 +137,10 @@ porcelain_parse_list_complete() {
 #
 # Variables:
 #
-#   $P_TEST             -- The fully qualified test ID.
-#   $P_TEST_NAME        -- The test name.
-#   $P_TEST_SUITE       -- The test suite.
-#   $P_TEST_DESCRIPTION -- The test description.
+#     $P_TEST             -- The fully qualified test ID.
+#     $P_TEST_NAME        -- The test name.
+#     $P_TEST_SUITE       -- The test suite.
+#     $P_TEST_DESCRIPTION -- The test description.
 porcelain_parse_result() {
 	local command
 	local args
